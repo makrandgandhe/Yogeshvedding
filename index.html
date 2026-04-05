@@ -50,7 +50,7 @@
       justify-content: center;
       background:
         radial-gradient(circle at center,
-          rgba(70,40,10,0.15),
+          rgba(70,40,10,0.12),
           rgba(0,0,0,0.92));
       transition: opacity 0.9s ease, visibility 0.9s ease;
     }
@@ -119,16 +119,16 @@
     .letter {
       position: absolute;
       left: 7%;
-      top: 10%;
+      top: 18%;
       width: 86%;
-      height: 78%;
+      height: 64%;
       background: linear-gradient(180deg, #fffdf8, #f7f1e7);
       border-radius: 10px;
       z-index: 3;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
       padding: 20px;
       text-align: center;
       box-shadow: 0 12px 30px rgba(0,0,0,0.18);
@@ -137,22 +137,31 @@
         opacity 0.8s ease;
     }
 
-    .title {
+    .title-overlay {
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      z-index: 20;
+      text-align: center;
+
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2rem, 7vw, 3rem);
+      font-size: clamp(2.2rem, 8vw, 3.2rem);
+      font-weight: 700;
       line-height: 1.05;
       color: #6d2e00;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-top: 20px;
-      margin-bottom: 14px;
+
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.85),
+        0 4px 14px rgba(0,0,0,0.2);
     }
 
     .subtitle {
       color: #555;
       font-size: 1rem;
       letter-spacing: 0.5px;
+      margin-bottom: 6px;
     }
 
     .tap-text {
@@ -174,6 +183,14 @@
     .envelope.open .letter {
       transform: translateY(-170px) scale(1.04);
       opacity: 0;
+    }
+
+    .envelope.open .title-overlay {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-80px);
+      transition:
+        opacity 0.8s ease,
+        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @keyframes float {
@@ -204,10 +221,9 @@
       id="inviteVideo"
       playsinline
       preload="auto"
-      muted
     >
       <source
-        src="https://www.dropbox.com/scl/fi/enqjwti2ju83w0fj0dl9u/prushotam-khatri.mp4?rlkey=s57b6y16c09opv5qd7c3vi78o&st=80jhsmy5&raw=1"
+        src="PASTE_YOUR_DROPBOX_RAW_LINK_HERE"
         type="video/mp4"
       />
     </video>
@@ -215,11 +231,16 @@
 
   <div class="envelope-overlay" id="overlay">
     <div class="envelope" id="envelope">
+
       <div class="envelope-base"></div>
+
+      <div class="title-overlay">
+        Yogesh<br>weds Divya
+      </div>
+
       <div class="flap"></div>
 
       <div class="letter">
-        <div class="title">Yogesh<br>weds<br> Divya</div>
         <div class="subtitle">Tap to open your invitation</div>
       </div>
 
@@ -239,6 +260,7 @@
         overlay.classList.add('hidden');
 
         try {
+          video.muted = false;
           await video.play();
 
           if (video.requestFullscreen) {
