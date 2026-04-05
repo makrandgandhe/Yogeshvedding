@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invitation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yogesh weds Divya</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     html, body {
@@ -27,16 +28,14 @@
     .video-container {
       position: fixed;
       inset: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #000;
       z-index: 1;
+      background: #000;
     }
 
-    iframe {
+    #inviteVideo {
       width: 100vw;
       height: 100vh;
-      border: none;
+      object-fit: cover;
       background: #000;
     }
 
@@ -47,8 +46,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at center, rgba(40,20,10,0.3), rgba(0,0,0,0.92));
-      transition: opacity 0.9s ease, visibility 0.9s ease;
+      background:
+        radial-gradient(circle at center,
+          rgba(60,30,10,0.12),
+          rgba(0,0,0,0.92));
+      transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
     .envelope-overlay.hidden {
@@ -59,26 +61,42 @@
 
     .envelope {
       position: relative;
-      width: 82vw;
-      max-width: 380px;
-      aspect-ratio: 1.4 / 1;
+      width: 84vw;
+      max-width: 390px;
+      aspect-ratio: 1.45 / 1;
       cursor: pointer;
-      transform-style: preserve-3d;
-      transition: transform 0.8s ease;
-      animation: envelopeFloat 3s ease-in-out infinite;
-    }
-
-    .envelope:hover {
-      transform: scale(1.02);
+      animation: float 3s ease-in-out infinite;
     }
 
     .envelope-base {
       position: absolute;
       inset: 0;
-      background: linear-gradient(145deg, #e9d4b1, #d8b98d);
-      border-radius: 10px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+      border-radius: 16px;
+      background: linear-gradient(145deg, #e8d0ac, #c99c63);
+      box-shadow:
+        0 24px 55px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
       overflow: hidden;
+    }
+
+    .envelope-base::before,
+    .envelope-base::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      background: rgba(0,0,0,0.06);
+    }
+
+    .envelope-base::before {
+      left: 0;
+      clip-path: polygon(0 100%, 100% 100%, 100% 0);
+    }
+
+    .envelope-base::after {
+      right: 0;
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
     }
 
     .flap {
@@ -87,63 +105,69 @@
       left: 0;
       width: 100%;
       height: 44%;
-      background: linear-gradient(145deg, #d2b084, #c39a67);
+      background: linear-gradient(145deg, #d7b17d, #b88449);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
-      transition: transform 1s ease;
-      z-index: 3;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    }
-
-    .envelope.open .flap {
-      transform: rotateX(180deg);
-      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 4;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     .letter {
       position: absolute;
-      left: 8%;
-      top: 12%;
-      width: 84%;
-      height: 76%;
-      background: #fff9ef;
-      border-radius: 8px;
-      z-index: 4;
+      left: 7%;
+      top: 18%;
+      width: 86%;
+      height: 64%;
+      background: linear-gradient(180deg, #fffdf8, #f7f1e7);
+      border-radius: 10px;
+      z-index: 3;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
       display: flex;
-      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 18px;
+      transition:
+        transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.8s ease;
+    }
+
+    .title-overlay {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 82%;
+      z-index: 3;
+
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      text-align: center;
-      transition: transform 1s ease, opacity 1s ease;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.18);
-    }
 
-    .envelope.open .letter {
-      transform: translateY(-150px) scale(1.04);
-      opacity: 0;
-      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s ease;
-    }
-
-    .title {
-      font-size: clamp(2rem, 6vw, 2.8rem);
-      color: #6e2d00;
-      margin-bottom: 12px;
-      margin-top: 22px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 5vw, 2.5rem);
       font-weight: 700;
-      letter-spacing: 1px;
-      line-height: 1.15;
+      white-space: nowrap;
       text-align: center;
-      font-family: "Georgia", "Times New Roman", serif;
-      text-shadow: 0 1px 0 rgba(255,255,255,0.7), 0 3px 10px rgba(0,0,0,0.12);
-      width: 100%;
-      z-index: 5;
+      letter-spacing: 0.5px;
+      line-height: 1;
+
+      color: #7a3b00;
+
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.9),
+        0 2px 8px rgba(0,0,0,0.12);
+
+      transition:
+        opacity 0.7s ease,
+        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .subtitle {
+      color: #666;
       font-size: 0.95rem;
-      color: #444;
-      line-height: 1.5;
+      letter-spacing: 0.5px;
+      text-align: center;
     }
 
     .tap-text {
@@ -153,45 +177,64 @@
       text-align: center;
       color: #f3e2c7;
       font-size: 0.95rem;
-      letter-spacing: 1px;
-      animation: pulse 1.6s infinite;
+      letter-spacing: 2px;
+      animation: pulse 1.8s ease-in-out infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(-3px); }
+    .flower-container {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    @keyframes envelopeFloat {
+    .flower {
+      position: absolute;
+      top: -50px;
+      opacity: 0;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .envelope.open .letter {
+      transform: translateY(-170px) scale(1.04);
+      opacity: 0;
+    }
+
+    .envelope.open .title-overlay {
+      opacity: 0;
+      transform: translate(-50%, -110px);
+    }
+
+    @keyframes float {
       0%, 100% {
-        transform: translateY(0px);
+        transform: translateY(0);
       }
       50% {
         transform: translateY(-8px);
       }
     }
-      50% { opacity: 1; }
-    }
-  
-    .flower-container {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 15;
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.45;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-4px);
+      }
     }
 
-    .flower {
-      position: absolute;
-      top: -40px;
-      font-size: 24px;
-      opacity: 0;
-      animation: flowerFall linear forwards;
-    }
-
-    @keyframes flowerFall {
+    @keyframes fall {
       0% {
-        transform: translateY(-40px) rotate(0deg);
+        transform: translateY(-50px) rotate(0deg);
         opacity: 0;
       }
       10% {
@@ -205,23 +248,30 @@
   </style>
 </head>
 <body>
+
   <div class="video-container">
-    <iframe
-      id="inviteFrame"
-      data-src="https://www.dropbox.com/scl/fi/enqjwti2ju83w0fj0dl9u/prushotam-khatri.mp4?rlkey=s57b6y16c09opv5qd7c3vi78o&st=6245ux4z&raw=1"
-      allow="autoplay; fullscreen"
-      allowfullscreen>
-    </iframe>
+    <video id="inviteVideo" playsinline preload="auto">
+      <source src="PASTE_YOUR_DROPBOX_RAW_LINK_HERE" type="video/mp4">
+    </video>
   </div>
+
+  <div class="flower-container" id="flowerContainer"></div>
 
   <div class="envelope-overlay" id="overlay">
     <div class="envelope" id="envelope">
+
       <div class="envelope-base"></div>
-      <div class="flap"></div>
+
       <div class="letter">
-        <div class="title">Yogesh weds Divya</div>
         <div class="subtitle">Tap to open your invitation</div>
       </div>
+
+      <div class="title-overlay">
+        Yogesh weds Divya
+      </div>
+
+      <div class="flap"></div>
+
       <div class="tap-text">TAP THE ENVELOPE</div>
     </div>
   </div>
@@ -229,35 +279,21 @@
   <script>
     const envelope = document.getElementById('envelope');
     const overlay = document.getElementById('overlay');
-    const frame = document.getElementById('inviteFrame');
-
-    envelope.addEventListener('click', () => {
-      envelope.classList.add('open');
-      showerFlowers();
-
-      setTimeout(() => {
-        frame.src = frame.dataset.src;
-        overlay.classList.add('hidden');
-      }, 1200);
-    });
-  </script>
-  <div class="flower-container" id="flowerContainer"></div>
-
-  <script>
+    const video = document.getElementById('inviteVideo');
     const flowerContainer = document.getElementById('flowerContainer');
 
     function showerFlowers() {
-      const flowers = ['🌸', '🌺', '🌼', '🌹'];
+      const flowers = ['🌸', '🌺', '🌹', '🌼'];
 
-      for (let i = 0; i < 32; i++) {
+      for (let i = 0; i < 40; i++) {
         const flower = document.createElement('div');
         flower.className = 'flower';
         flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
 
         flower.style.left = Math.random() * 100 + 'vw';
+        flower.style.fontSize = (18 + Math.random() * 20) + 'px';
         flower.style.animationDuration = (3 + Math.random() * 3) + 's';
-        flower.style.animationDelay = (Math.random() * 0.8) + 's';
-        flower.style.fontSize = (18 + Math.random() * 18) + 'px';
+        flower.style.animationDelay = (Math.random() * 1.2) + 's';
 
         flowerContainer.appendChild(flower);
 
@@ -266,6 +302,33 @@
         }, 7000);
       }
     }
+
+    envelope.addEventListener('click', async () => {
+      envelope.classList.add('open');
+      showerFlowers();
+
+      try {
+        video.muted = false;
+        await video.play();
+      } catch (err) {
+        console.log(err);
+      }
+
+      setTimeout(async () => {
+        overlay.classList.add('hidden');
+
+        try {
+          if (video.requestFullscreen) {
+            await video.requestFullscreen();
+          } else if (video.webkitEnterFullscreen) {
+            video.webkitEnterFullscreen();
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }, 1200);
+    });
   </script>
+
 </body>
 </html>
