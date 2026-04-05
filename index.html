@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #container {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background: black;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: none;
+      background: black;
+    }
+
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 18px 28px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: black;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <button id="startBtn">Tap to Open Invitation</button>
+
+    <video id="video" playsinline controls>
+      <source src="https://drive.google.com/uc?export=download&id=1b9uZmq_KSMqbzOw0mnniUptMUTDY1NuY" type="video/mp4">
+    </video>
+  </div>
+
+  <script>
+    const btn = document.getElementById('startBtn');
+    const video = document.getElementById('video');
+
+    btn.addEventListener('click', async () => {
+      btn.style.display = 'none';
+      video.style.display = 'block';
+
+      try {
+        await video.play();
+
+        if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  </script>
+</body>
+</html>
