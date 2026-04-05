@@ -1,3 +1,6 @@
+# Replace your entire `index.html` with this
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -177,7 +180,8 @@
 <body>
   <div class="video-container">
     <iframe
-      src="https://drive.google.com/file/d/1b9uZmq_KSMqbzOw0mnniUptMUTDY1NuY/preview"
+      id="inviteFrame"
+      data-src="https://drive.google.com/file/d/1b9uZmq_KSMqbzOw0mnniUptMUTDY1NuY/preview"
       allow="autoplay; fullscreen"
       allowfullscreen>
     </iframe>
@@ -198,14 +202,17 @@
   <script>
     const envelope = document.getElementById('envelope');
     const overlay = document.getElementById('overlay');
+    const frame = document.getElementById('inviteFrame');
 
     envelope.addEventListener('click', () => {
       envelope.classList.add('open');
 
       setTimeout(() => {
+        frame.src = frame.dataset.src;
         overlay.classList.add('hidden');
       }, 1200);
     });
   </script>
 </body>
 </html>
+```
