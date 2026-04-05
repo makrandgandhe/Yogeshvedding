@@ -39,6 +39,37 @@
       background: #000;
     }
 
+    .flower-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .flower {
+      position: absolute;
+      top: -60px;
+      opacity: 0;
+      animation: flowerFall linear forwards;
+    }
+
+    @keyframes flowerFall {
+      0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(540deg);
+        opacity: 0;
+      }
+    }
+
     .envelope-overlay {
       position: fixed;
       inset: 0;
@@ -50,7 +81,7 @@
         radial-gradient(circle at center,
           rgba(60,30,10,0.12),
           rgba(0,0,0,0.92));
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      transition: opacity 1s ease, visibility 1s ease;
     }
 
     .envelope-overlay.hidden {
@@ -65,7 +96,18 @@
       max-width: 390px;
       aspect-ratio: 1.45 / 1;
       cursor: pointer;
-      animation: float 3s ease-in-out infinite;
+      animation: envelopeFloat 3s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes envelopeFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     .envelope-base {
@@ -108,59 +150,50 @@
       background: linear-gradient(145deg, #d7b17d, #b88449);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
-      transition: transform 1.25s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 4;
       box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .letter {
       position: absolute;
       left: 7%;
-      top: 18%;
+      top: 16%;
       width: 86%;
-      height: 64%;
+      height: 68%;
       background: linear-gradient(180deg, #fffdf8, #f7f1e7);
       border-radius: 10px;
       z-index: 3;
       box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 18px;
-      transition:
-        transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.8s ease;
-    }
-
-    .title-overlay {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 82%;
-      z-index: 3;
 
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.7rem, 5vw, 2.5rem);
-      font-weight: 700;
-      white-space: nowrap;
-      text-align: center;
-      letter-spacing: 0.5px;
-      line-height: 1;
+      transition:
+        transform 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 1s ease;
+    }
 
+    .title-overlay {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.9rem, 5.5vw, 2.7rem);
+      font-weight: 700;
       color: #7a3b00;
+      text-align: center;
+      white-space: nowrap;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
 
       text-shadow:
         0 1px 0 rgba(255,255,255,0.9),
         0 2px 8px rgba(0,0,0,0.12);
 
       transition:
-        opacity 0.7s ease,
-        transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        transform 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.9s ease;
     }
 
     .subtitle {
@@ -168,6 +201,10 @@
       font-size: 0.95rem;
       letter-spacing: 0.5px;
       text-align: center;
+
+      transition:
+        transform 1.2s ease,
+        opacity 0.8s ease;
     }
 
     .tap-text {
@@ -181,21 +218,16 @@
       animation: pulse 1.8s ease-in-out infinite;
     }
 
-    .flower-container {
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      pointer-events: none;
-      overflow: hidden;
-    }
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.45;
+        transform: translateY(0);
+      }
 
-    .flower {
-      position: absolute;
-      top: -50px;
-      opacity: 0;
-      animation-name: fall;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
+      50% {
+        opacity: 1;
+        transform: translateY(-4px);
+      }
     }
 
     .envelope.open .flap {
@@ -203,47 +235,14 @@
     }
 
     .envelope.open .letter {
-      transform: translateY(-170px) scale(1.04);
+      transform: translateY(-150px);
       opacity: 0;
     }
 
-    .envelope.open .title-overlay {
+    .envelope.open .title-overlay,
+    .envelope.open .subtitle {
+      transform: translateY(-40px);
       opacity: 0;
-      transform: translate(-50%, -110px);
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.45;
-        transform: translateY(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(-4px);
-      }
-    }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(-50px) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(540deg);
-        opacity: 0;
-      }
     }
   </style>
 </head>
@@ -259,15 +258,11 @@
 
   <div class="envelope-overlay" id="overlay">
     <div class="envelope" id="envelope">
-
       <div class="envelope-base"></div>
 
       <div class="letter">
+        <div class="title-overlay">Yogesh weds Divya</div>
         <div class="subtitle">Tap to open your invitation</div>
-      </div>
-
-      <div class="title-overlay">
-        Yogesh weds Divya
       </div>
 
       <div class="flap"></div>
@@ -291,33 +286,30 @@
         flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
 
         flower.style.left = Math.random() * 100 + 'vw';
-        flower.style.fontSize = (18 + Math.random() * 20) + 'px';
-        flower.style.animationDuration = (3 + Math.random() * 3) + 's';
-        flower.style.animationDelay = (Math.random() * 1.2) + 's';
+        flower.style.fontSize = (18 + Math.random() * 18) + 'px';
+        flower.style.animationDuration = (3 + Math.random() * 2) + 's';
+        flower.style.animationDelay = (Math.random() * 0.8) + 's';
 
         flowerContainer.appendChild(flower);
 
         setTimeout(() => {
           flower.remove();
-        }, 7000);
+        }, 6000);
       }
     }
 
-    envelope.addEventListener('click', async () => {
+    envelope.addEventListener('click', () => {
       envelope.classList.add('open');
       showerFlowers();
-
-      try {
-        video.muted = false;
-        await video.play();
-      } catch (err) {
-        console.log(err);
-      }
 
       setTimeout(async () => {
         overlay.classList.add('hidden');
 
         try {
+          video.currentTime = 0;
+          video.muted = false;
+          await video.play();
+
           if (video.requestFullscreen) {
             await video.requestFullscreen();
           } else if (video.webkitEnterFullscreen) {
@@ -326,7 +318,7 @@
         } catch (err) {
           console.log(err);
         }
-      }, 1200);
+      }, 1800);
     });
   </script>
 
